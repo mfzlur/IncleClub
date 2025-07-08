@@ -1,39 +1,15 @@
-.App {
-  text-align: center;
-}
+/* --- Global Styles & Animated Rainbow Background --- */
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+/* This keyframes animation slowly shifts the background gradient position */
+@keyframes animated-gradient {
+  0% {
+    background-position: 0% 50%;
   }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+  50% {
+    background-position: 100% 50%;
   }
-  to {
-    transform: rotate(360deg);
+  100% {
+    background-position: 0% 50%;
   }
 }
 
@@ -44,24 +20,44 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #f0f2f5;
   color: #333;
+
+  /* Soft, pastel rainbow gradient background */
+  background: linear-gradient(
+    120deg,
+    #a1c4fd, /* Soft Blue */
+    #c2e9fb, /* Lighter Blue */
+    #fbc2eb, /* Soft Pink */
+    #a6c1ee  /* Muted Purple */
+  );
+  background-size: 300% 300%;
+  animation: animated-gradient 18s ease infinite;
 }
 
-/* Navbar styles */
+/* --- Navbar Styles --- */
+/* --- Find and Replace This Entire Block in App.css --- */
+
+/* --- Dark Navbar Styles --- */
 .navbar {
-  background-color: #ffffff;
   padding: 1rem 2rem;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   display: flex;
   justify-content: space-between;
   align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+
+  /* Dark Glassmorphism: dark, semi-transparent background */
+  background-color: rgba(26, 32, 44, 0.7); /* A dark charcoal/slate color */
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* A subtle light border */
 }
 
 .navbar-brand {
   font-size: 1.5rem;
   font-weight: bold;
-  color: #5b21b6;
+  color: #FFFFFF; /* Bright white for high contrast */
   text-decoration: none;
 }
 
@@ -70,32 +66,62 @@ body {
   margin: 0;
   padding: 0;
   display: flex;
+  align-items: center;
 }
 
 .navbar-links li {
-  margin-left: 2rem;
+  margin-left: 1rem;
 }
 
-.navbar-links a {
+.navbar-links .nav-link {
+  display: inline-block;
   text-decoration: none;
-  color: #4b5563;
+  color: #CBD5E0; /* A soft, light gray for readability */
   font-size: 1rem;
   font-weight: 500;
-  transition: color 0.3s ease;
+  padding: 0.5rem 1.25rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
 }
 
-.navbar-links a:hover {
-  color: #5b21b6;
+/* Hover effect for standard links on the dark background */
+.navbar-links .nav-link:hover {
+  background-color: rgba(255, 255, 255, 0.1); /* Subtle light background on hover */
+  color: #FFFFFF; /* Bright white text on hover */
 }
 
-/* Main content container */
+/* Style for the active page link on the dark background */
+.navbar-links .nav-link.active {
+  background-color: rgba(91, 33, 182, 0.3); /* Translucent version of your theme purple */
+  color: #FFFFFF;
+  font-weight: 600;
+}
+
+/* The existing auth-button styles work well with the dark theme, so they can remain */
+.auth-button {
+  background-color: #5b21b6;
+  color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.auth-button:hover {
+  background-color: #4c1d95;
+  color: #ffffff;
+}
+
+/* --- End of Navbar Block --- */
+
+/* --- Main Content Layout --- */
 .container {
   padding: 2rem;
   max-width: 1200px;
   margin: auto;
 }
 
-/* Homepage tiles layout */
 .home-grid {
   display: grid;
   grid-template-columns: 1fr;
@@ -108,40 +134,47 @@ body {
   }
 }
 
-/* Tile base styles */
+/* --- Tile Styles --- */
 .tile {
-  background-color: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-  padding: 1.5rem;
+  min-height: 400px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  min-height: 400px;
+  padding: 1.5rem;
+  border-radius: 16px;
+  
+  /* Glassmorphism effect for tiles */
+  background-color: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
 }
 
 .tile h2 {
   margin-top: 0;
   color: #5b21b6;
+  text-align: center;
 }
 
-/* YouTube Tile */
-.youtube-container {
-  width: 100%;
-  max-width: 315px;
-  aspect-ratio: 9 / 16;
-  border-radius: 10px;
-  overflow: hidden;
-}
-
-.youtube-container iframe {
-  width: 100%;
-  height: 100%;
+.refresh-button {
+  background: none;
   border: none;
+  cursor: pointer;
+  font-size: 1.5rem;
+  margin-left: 10px;
+  color: #5b21b6;
+  transition: color 0.3s ease, transform 0.3s ease;
+  vertical-align: middle;
 }
 
-/* Quote Tile */
+.refresh-button:hover {
+  color: #9d4edd;
+  transform: rotate(360deg);
+}
+
+/* --- Specific Content Styles --- */
 .quote-content {
   text-align: center;
 }
@@ -158,27 +191,13 @@ body {
   color: #6d28d9;
 }
 
-/* About Us page */
-.about-us-container {
-  background-color: #fff;
-  padding: 2rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-}
-
-.about-us-container h1 {
-  color: #5b21b6;
-}
-
-/* NEW: Generic styles for image and video content */
 .media-content {
   max-width: 100%;
-  max-height: 450px; /* Adjust as needed */
+  max-height: 450px;
   border-radius: 10px;
-  object-fit: cover; /* Ensures images/videos cover the area nicely */
+  object-fit: cover;
 }
 
-/* Ensure the YouTube container maintains its aspect ratio */
 .youtube-container {
   width: 100%;
   max-width: 315px;
@@ -193,54 +212,145 @@ body {
   border: none;
 }
 
-/* NEW: Refresh button styles */
-.refresh-button {
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 2.5rem; /* Match font size for visual balance */
-  margin-left: 10px;
-  color: #5b21b6; /* Use your primary theme color */
-  transition: color 0.3s ease;
-  vertical-align: middle; /* Align icon with the title text */
-}
-
-.refresh-button:hover {
-  color: #9d4edd; /* A lighter shade for hover effect */
-}
-
-.refresh-button:focus {
-  outline: none; /* Optional: remove default focus outline */
-  color: #7c3aed;
-}
-
-/* ... (keep all existing styles) ... */
-
-/* REVERT grid layout to two columns on larger screens */
-@media (min-width: 768px) {
-  .home-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-/* Make sure the three-column layout is removed or overridden */
-@media (min-width: 1024px) {
-  .home-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-
-/* NEW: Styles for the full-width poster container */
+/* --- Full-Width Poster --- */
 .full-width-poster {
   width: 100%;
-  margin-top: 2.5rem; /* Add space between the tiles and the poster */
+  margin-top: 2.5rem;
 }
 
 .full-width-poster img {
   width: 100%;
   height: auto;
-  display: block; /* Removes any extra space below the image */
+  display: block;
+}
+
+/* --- About Us Page --- */
+.about-us-container {
+  padding: 2rem;
+  border-radius: 16px;
+
+  /* Glassmorphism effect for About Us page */
+  background-color: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+}
+
+.about-us-container h1 {
+  color: #5b21b6;
+}
+
+/* --- Scoped Styles for the Dark "About Us" Page --- */
+
+.about-us-theme-container {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #1e1e1e;
+  color: #f5f5f5;
+  padding: 2rem 4rem;
+  line-height: 1.7;
+  border-radius: 16px;
+  max-width: 900px;
+  margin: 2rem auto;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  text-align: left;
+}
+
+/* These styles will only affect h1 and h2 tags INSIDE the container */
+.about-us-theme-container h1,
+.about-us-theme-container h2 {
+  color: #ff4081;
+}
+
+.about-us-theme-container .highlight {
+  color: #00e5ff;
+}
+
+.about-us-theme-container .founders {
+  margin-top: 3rem;
+  padding: 1.5rem;
+  border: 1px dashed #555;
+  background-color: #2a2a2a;
+  border-radius: 8px;
+}
+
+.about-us-theme-container .founders h2 {
+  margin-top: 0;
 }
 
 
+/* --- Styles for the Authentication Page --- */
+
+.auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 4rem 2rem;
+}
+
+.auth-form {
+  width: 100%;
+  max-width: 400px;
+  padding: 2rem;
+  background-color: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 16px;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.auth-form h2 {
+  color: #5b21b6;
+  text-align: center;
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+}
+
+.auth-form .input-group {
+  margin-bottom: 1.5rem;
+}
+
+.auth-form .input-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.auth-form .input-group input {
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  box-sizing: border-box; /* Ensures padding doesn't affect width */
+}
+
+.auth-form .submit-button {
+  width: 100%;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 8px;
+  background-color: #5b21b6;
+  color: white;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.auth-form .submit-button:hover {
+  background-color: #4c1d95;
+}
+
+.auth-form .switch-mode {
+  text-align: center;
+  margin-top: 1rem;
+  color: #5b21b6;
+  cursor: pointer;
+}
+
+.auth-form .error {
+  text-align: center;
+  color: #e53e3e;
+  margin-bottom: 1rem;
+}
