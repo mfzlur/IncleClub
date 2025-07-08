@@ -3,57 +3,79 @@ from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_jwt_extended import create_access_token, JWTManager
+from sqlalchemy.sql.expression import func  # <-- Import func
 import random
-import os
+import 
+# At the top of api/app.py, add these to your imports
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
-# --- Vercel-Friendly App Initialization ---
 
-# Define a writable path in the serverless environment for the instance folder
-instance_path = os.path.join('/tmp', 'instance')
-
-# Initialize the Flask app with a custom, writable instance path
-app = Flask(__name__, instance_path=instance_path)
-
-# Ensure the instance folder exists every time the function starts
-# This is necessary because the /tmp directory can be cleared.
-try:
-    os.makedirs(app.instance_path)
-except OSError:
-    # An error is raised if the directory already exists, which is fine.
-    pass
+# --- Application Initialization ---
+app = Flask(__name__)
 
 # --- App Configuration ---
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'a-fallback-secret-key-for-dev')
-
-# Configure the database URI to also be in the writable /tmp directory
-db_path = os.path.join('/tmp', 'site.db')
-app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{db_path}'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
 
 # --- Extensions Initialization ---
 CORS(app)
-db = SQLAlchemy(app) # This line should now succeed
+db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 jwt = JWTManager(app)
 
-
-# --- Database Model (remains the same) ---
+# --- Database Models ---
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(20), unique=True, nullable=False)
     password = db.Column(db.String(60), nullable=False)
 
+# NEW: Quote model
+class Quote(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    text = db.Column(db.String(500), nullable=False)
+    author = db.Column(db.String(100), nullable=False)
 
-# --- IMPORTANT: Ensure Database and Tables are Created ---
-# This block creates the site.db file and User table if they don't exist
+# NEW: Add the Meme model
+class Meme(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    imageUrl = db.Column(db.String(500), nullable=False)
+
+    def __repr__(self):
+        return f"Meme('{self.imageUrl}')"
+
+# This block creates tables and seeds the Quote table if empty.
 with app.app_context():
     db.create_all()
 
+    if Quote.query.count() == 0:
+        sample_quotes = [
+            {"text": "The only way to do great work is to love what you do.", "author": "Steve Jobs"},
+            {"text": "Innovation distinguishes between a leader and a follower.", "author": "Steve Jobs"},
+            {"text": "The future belongs to those who believe in the beauty of their dreams.", "author": "Eleanor Roosevelt"},
+            {"text": "Strive not to be a success, but rather to be of value.", "author": "Albert Einstein"},
+            {"text": "Life is what happens when you're busy making other plans.", "author": "John Lennon"}
+        ]
+        for q in sample_quotes:
+            db.session.add(Quote(text=q['text'], author=q['author']))
 
-# --- Your API Routes (remain the same) ---
 
-@app.route('/register', methods=['POST'])
+    # NEW: Check if the Meme table is empty and seed it
+    if Meme.query.count() == 0:
+        sample_memes = [
+            {"imageUrl": "https://i.imgflip.com/1bij.jpg"}, # Distracted Boyfriend
+            {"imageUrl": "https://i.imgflip.com/26am.jpg"},  # One Does Not Simply
+            {"imageUrl": "https://i.imgflip.com/1g8my4.jpg"},# Expanding Brain
+            {"imageUrl": "https://i.imgflip.com/30b1gx.jpg"} # Woman Yelling at a Cat
+        ]
+        for m in sample_memes:
+            db.session.add(Meme(imageUrl=m['imageUrl']))
+        db.session.commit()
+
+
+# --- API Routes ---
+
+@app.route('/api/register', methods=['POST'])
 def register():
     data = request.get_json()
     user = User.query.filter_by(username=data['username']).first()
@@ -66,7 +88,7 @@ def register():
     db.session.commit()
     return jsonify({"message": "User created successfully"}), 201
 
-@app.route('/login', methods=['POST'])
+@app.route('/api/login', methods=['POST'])
 def login():
     data = request.get_json()
     user = User.query.filter_by(username=data['username']).first()
@@ -77,32 +99,50 @@ def login():
     
     return jsonify({"message": "Invalid credentials"}), 401
 
-# Sample data for quotes
-quotes = [
-    {"text": "The only way to do great work is to love what you do.", "author": "Steve Jobs"},
-    {"text": "Innovation distinguishes between a leader and a follower.", "author": "Steve Jobs"},
-    {"text": "The future belongs to those who believe in the beauty of their dreams.", "author": "Eleanor Roosevelt"},
-    {"text": "Strive not to be a success, but rather to be of value.", "author": "Albert Einstein"},
-    {"text": "Life is what happens when you're busy making other plans.", "author": "John Lennon"},
-    {"text": "Behenchod Maa Chuda", "author": "arse"},
-]
-
-
-# NEW: Expanded media data with different types
-media_items = [
-    {"type": "youtube", "videoId": "S3G3e246a4g"},
-    {"type": "image", "url": "https://images.unsplash.com/photo-1611162617213-6d22e525b3a3?q=80&w=1000"},
-    {"type": "gif", "url": "https://media.giphy.com/media/3o7TKSjR5k4i3Nn1XW/giphy.gif"},
-    {"type": "video", "url": "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"},
-    {"type": "youtube", "url": "https://www.youtube.com/shorts/uXb6yDOLp6s"} 
-]
+# UPDATED: This route now gets a random quote from the database
 @app.route('/api/quote', methods=['GET'])
 def get_quote():
-    return jsonify(random.choice(quotes))
+    random_quote = Quote.query.order_by(func.random()).first()
+    if random_quote:
+        return jsonify({"text": random_quote.text, "author": random_quote.author})
+    return jsonify({"message": "No quotes found"}), 404
 
-# UPDATED: New endpoint to get a random media item
-@app.route('/api/media', methods=['GET'])
-def get_media():
-    """Returns a random media item from the list."""
-    random_media = random.choice(media_items)
-    return jsonify(random_media)
+
+# --- NEW: Add the endpoint to get a random meme ---
+@app.route('/api/meme', methods=['GET'])
+def get_meme():
+    # Selects one random meme from the Meme table
+    random_meme = Meme.query.order_by(func.random()).first()
+    
+    if random_meme:
+        return jsonify({"imageUrl": random_meme.imageUrl})
+    
+    return jsonify({"message": "No memes found"}), 404
+
+
+# --- NEW: Secure endpoints for adding content ---
+
+@app.route('/api/quote/add', methods=['POST'])
+@jwt_required()
+def add_quote():
+    data = request.get_json()
+    
+    # You could use get_jwt_identity() here to see who submitted it,
+    # but for now, we'll just add the quote to the main list.
+    
+    new_quote = Quote(text=data['text'], author=data['author'])
+    db.session.add(new_quote)
+    db.session.commit()
+    
+    return jsonify({"message": "Quote added successfully"}), 201
+
+@app.route('/api/meme/add', methods=['POST'])
+@jwt_required()
+def add_meme():
+    data = request.get_json()
+    
+    new_meme = Meme(imageUrl=data['imageUrl'])
+    db.session.add(new_meme)
+    db.session.commit()
+    
+    return jsonify({"message": "Meme added successfully"}), 201

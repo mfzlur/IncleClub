@@ -1,28 +1,40 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import Navbar from './components/Navbar';
-import AppRoutes from './routes/AppRoutes'; // Assuming you have this from previous steps
-import './App.css';
+import AppRoutes from './routes/AppRoutes';
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [currentUser, setCurrentUser] = useState(null);
 
-  // Mock login/logout handlers that update the state
-  const handleLogin = () => setIsLoggedIn(true);
-  const handleLogout = () => setIsLoggedIn(false);
+  useEffect(() => {
+    const storedUsername = localStorage.getItem('username');
+    if (storedUsername) {
+      setCurrentUser(storedUsername);
+    }
+  }, []);
+
+  const handleLogin = (username) => {
+    setCurrentUser(username);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('username');
+    setCurrentUser(null);
+  };
+
+  const isLoggedIn = !!currentUser;
 
   return (
     <Router>
-      <div className="App">
-        {/* Pass the state and handlers down to the Navbar as props */}
-        <Navbar 
-          isLoggedIn={isLoggedIn} 
-          onLogin={handleLogin} 
-          onLogout={handleLogout} 
-        />
+      {/* The className="App" has been removed for a cleaner structure */}
+      <div>
+        <Navbar isLoggedIn={isLoggedIn} onLogout={handleLogout} />
         <main>
-          {/* In a real app, the login page would call onLogin */}
-          <AppRoutes />
+          <AppRoutes 
+            onLoginSuccess={handleLogin} 
+            currentUser={currentUser} 
+          />
         </main>
       </div>
     </Router>

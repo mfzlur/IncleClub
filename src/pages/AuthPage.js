@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-
-// No CSS Module import needed
+import { jwtDecode } from 'jwt-decode'; // Import the decoding function
 
 const AuthPage = ({ onLoginSuccess }) => {
   const [username, setUsername] = useState('');
@@ -19,8 +18,15 @@ const AuthPage = ({ onLoginSuccess }) => {
     try {
       const response = await axios.post(url, { username, password });
       if (isLogin) {
-        localStorage.setItem('token', response.data.access_token);
-        onLoginSuccess();
+        const token = response.data.access_token;
+        const decodedToken = jwtDecode(token); // Decode the token
+        const loggedInUsername = decodedToken.identity.username;
+
+        // Store both the token and the username
+        localStorage.setItem('token', token);
+        localStorage.setItem('username', loggedInUsername);
+
+        onLoginSuccess(loggedInUsername); // Pass the username up to App.js
         navigate('/');
       } else {
         setIsLogin(true);
@@ -31,6 +37,7 @@ const AuthPage = ({ onLoginSuccess }) => {
     }
   };
 
+  // ... (rest of the component's JSX remains the same)
   return (
     <div className="auth-container">
       <form onSubmit={handleSubmit} className="auth-form">
@@ -68,3 +75,4 @@ const AuthPage = ({ onLoginSuccess }) => {
 };
 
 export default AuthPage;
+
