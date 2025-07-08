@@ -1,0 +1,250 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #f0f2f5;
+  color: #333;
+}
+
+/* Navbar styles */
+.navbar {
+  background-color: #ffffff;
+  padding: 1rem 2rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbar-brand {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #5b21b6;
+  text-decoration: none;
+}
+
+.navbar-links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+}
+
+.navbar-links li {
+  margin-left: 2rem;
+}
+
+.navbar-links a {
+  text-decoration: none;
+  color: #4b5563;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.navbar-links a:hover {
+  color: #5b21b6;
+}
+
+/* Main content container */
+.container {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: auto;
+}
+
+/* Homepage tiles layout */
+.home-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+
+@media (min-width: 768px) {
+  .home-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Tile base styles */
+.tile {
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+}
+
+.tile h2 {
+  margin-top: 0;
+  color: #5b21b6;
+}
+
+/* YouTube Tile */
+.youtube-container {
+  width: 100%;
+  max-width: 315px;
+  aspect-ratio: 9 / 16;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.youtube-container iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+/* Quote Tile */
+.quote-content {
+  text-align: center;
+}
+
+.quote-text {
+  font-size: 1.5rem;
+  font-style: italic;
+  margin-bottom: 1rem;
+}
+
+.quote-author {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #6d28d9;
+}
+
+/* About Us page */
+.about-us-container {
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.about-us-container h1 {
+  color: #5b21b6;
+}
+
+/* ... (keep all existing styles) ... */
+
+/* NEW: Generic styles for image and video content */
+.media-content {
+  max-width: 100%;
+  max-height: 450px; /* Adjust as needed */
+  border-radius: 10px;
+  object-fit: cover; /* Ensures images/videos cover the area nicely */
+}
+
+/* Ensure the YouTube container maintains its aspect ratio */
+.youtube-container {
+  width: 100%;
+  max-width: 315px;
+  aspect-ratio: 9 / 16;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.youtube-container iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+/* ... (keep all your existing styles) ... */
+
+/* NEW: Refresh button styles */
+.refresh-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 2.5rem; /* Match font size for visual balance */
+  margin-left: 10px;
+  color: #5b21b6; /* Use your primary theme color */
+  transition: color 0.3s ease;
+  vertical-align: middle; /* Align icon with the title text */
+}
+
+.refresh-button:hover {
+  color: #9d4edd; /* A lighter shade for hover effect */
+}
+
+.refresh-button:focus {
+  outline: none; /* Optional: remove default focus outline */
+  color: #7c3aed;
+}
+
+/* ... (keep all existing styles) ... */
+
+/* REVERT grid layout to two columns on larger screens */
+@media (min-width: 768px) {
+  .home-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Make sure the three-column layout is removed or overridden */
+@media (min-width: 1024px) {
+  .home-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+
+/* NEW: Styles for the full-width poster container */
+.full-width-poster {
+  width: 100%;
+  margin-top: 2.5rem; /* Add space between the tiles and the poster */
+}
+
+.full-width-poster img {
+  width: 100%;
+  height: auto;
+  display: block; /* Removes any extra space below the image */
+}
+
+
