@@ -170,8 +170,6 @@ body {
   color: #5b21b6;
 }
 
-/* ... (keep all existing styles) ... */
-
 /* NEW: Generic styles for image and video content */
 .media-content {
   max-width: 100%;
@@ -194,8 +192,6 @@ body {
   height: 100%;
   border: none;
 }
-
-/* ... (keep all your existing styles) ... */
 
 /* NEW: Refresh button styles */
 .refresh-button {
