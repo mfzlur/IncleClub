@@ -77,44 +77,81 @@ with app.app_context():
 
 @app.route('/api/register', methods=['POST'])
 def register():
-    data = request.get_json()
-    user = User.query.filter_by(username=data['username']).first()
-    if user:
-        return jsonify({"message": "Username already exists"}), 409
+    try:
+        data = request.get_json()
+        if not data or 'username' not in data or 'password' not in data:
+            return jsonify({"message": "Missing username or password"}), 400
 
-    hashed_password = bcrypt.generate_password_hash(data['password']).decode('utf-8')
-    new_user = User(username=data['username'], password=hashed_password)
-    db.session.add(new_user)
-    db.session.commit()
-    return jsonify({"message": "User created successfully"}), 201
+        user = User.query.filter_by(username=data['username']).first()
+        if user:
+            return jsonify({"message": "Username already exists"}), 409
+
+        hashed_password = bcrypt.generate_password_hash(data['password']).decode('utf-8')
+        new_user = User(username=data['username'], password=hashed_password)
+        
+        db.session.add(new_user)
+        db.session.commit()
+        
+        return jsonify({"message": "User created successfully"}), 201
+
+    except Exception as e:
+        # If any error occurs, roll back the session and log the error
+        db.session.rollback()
+        app.logger.error(f"Error in /api/register: {e}")
+        return jsonify({"message": "An internal error occurred during registration"}), 500
+
 
 @app.route('/api/login', methods=['POST'])
 def login():
-    data = request.get_json()
-    user = User.query.filter_by(username=data['username']).first()
+    try:
+        data = request.get_json()
+        if not data or 'username' not in data or 'password' not in data:
+            return jsonify({"message": "Missing username or password"}), 400
 
-    if user and bcrypt.check_password_hash(user.password, data['password']):
-        access_token = create_access_token(identity={'username': user.username})
-        return jsonify(access_token=access_token), 200
-    
-    return jsonify({"message": "Invalid credentials"}), 401
+        user = User.query.filter_by(username=data['username']).first()
 
-# UPDATED: This route now gets a random quote from the database
+        if user and bcrypt.check_password_hash(user.password, data['password']):
+            access_token = create_access_token(identity={'username': user.username})
+            return jsonify(access_token=access_token), 200
+        
+        return jsonify({"message": "Invalid credentials"}), 401
+
+    except Exception as e:
+        app.logger.error(f"Error in /api/login: {e}")
+        return jsonify({"message": "An internal error occurred during login"}), 500
+
+# UPDATED: This route now uses the more efficient offset method
 @app.route('/api/quote', methods=['GET'])
 def get_quote():
-    random_quote = Quote.query.order_by(func.random()).first()
-    if random_quote:
+    # 1. Get the total number of rows in the table
+    row_count = Quote.query.count()
+
+    if row_count > 0:
+        # 2. Generate a random number to use as an offset
+        random_offset = random.randint(0, row_count - 1)
+        
+        # 3. Fetch the single row at that random offset
+        random_quote = Quote.query.offset(random_offset).first()
+        
         return jsonify({"text": random_quote.text, "author": random_quote.author})
+    
     return jsonify({"message": "No quotes found"}), 404
 
 
-# --- NEW: Add the endpoint to get a random meme ---
+
+# UPDATED: This route also uses the more efficient offset method
 @app.route('/api/meme', methods=['GET'])
 def get_meme():
-    # Selects one random meme from the Meme table
-    random_meme = Meme.query.order_by(func.random()).first()
-    
-    if random_meme:
+    # 1. Get the total number of rows
+    row_count = Meme.query.count()
+
+    if row_count > 0:
+        # 2. Generate a random offset
+        random_offset = random.randint(0, row_count - 1)
+        
+        # 3. Fetch the single row at that offset
+        random_meme = Meme.query.offset(random_offset).first()
+        
         return jsonify({"imageUrl": random_meme.imageUrl})
     
     return jsonify({"message": "No memes found"}), 404
