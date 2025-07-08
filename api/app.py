@@ -3,9 +3,9 @@ from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_jwt_extended import create_access_token, JWTManager
-from sqlalchemy.sql.expression import func  # <-- Import func
 import random
 from flask_jwt_extended import jwt_required
+import os
 
 
 # --- Application Initialization ---
