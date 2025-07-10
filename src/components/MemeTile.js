@@ -43,7 +43,7 @@ const MemeTile = () => {
     return (
         <div className="tile">
             <div className="tile-header">
-                <h2>Today's Meme</h2>
+                <h2>Fresh Garbage from the Meme Mines</h2>
                 <div className="tile-actions">
                     {/* The "Add" button has been removed */}
                     <button 

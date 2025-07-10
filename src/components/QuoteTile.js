@@ -50,7 +50,7 @@ const QuoteTile = ({ currentUser }) => {
 
             <div className="tile">
                 <div className="tile-header">
-                    <h2>Quote of the Day</h2>
+                    <h2>Pearls of Wisdom from the Wrong Crowd</h2>
                     <div className="tile-actions">
                         {/* Conditionally render the "Add" button if a user is logged in */}
                         {currentUser && (
