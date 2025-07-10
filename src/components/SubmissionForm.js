@@ -27,8 +27,7 @@ const SubmissionForm = ({ type, onClose, onSubmissionSuccess }) => {
 
         try {
             // 3. Send the request with data and headers
-            const response = await axios.post(url, data, { headers });
-            
+            await axios.post(url, data, { headers });            
             // Call the success handler passed from QuoteTile
             if (onSubmissionSuccess) {
                 onSubmissionSuccess(data); 
