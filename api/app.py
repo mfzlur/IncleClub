@@ -49,25 +49,14 @@ with app.app_context():
     db.create_all()
 
     if Quote.query.count() == 0:
-        sample_quotes = [
-            {"text": "The only way to do great work is to love what you do.", "author": "Steve Jobs"},
-            {"text": "Innovation distinguishes between a leader and a follower.", "author": "Steve Jobs"},
-            {"text": "The future belongs to those who believe in the beauty of their dreams.", "author": "Eleanor Roosevelt"},
-            {"text": "Strive not to be a success, but rather to be of value.", "author": "Albert Einstein"},
-            {"text": "Life is what happens when you're busy making other plans.", "author": "John Lennon"}
-        ]
+
         for q in sample_quotes:
             db.session.add(Quote(text=q['text'], author=q['author']))
 
 
     # NEW: Check if the Meme table is empty and seed it
     if Meme.query.count() == 0:
-        sample_memes = [
-            {"imageUrl": "https://i.imgflip.com/1bij.jpg"}, # Distracted Boyfriend
-            {"imageUrl": "https://i.imgflip.com/26am.jpg"},  # One Does Not Simply
-            {"imageUrl": "https://i.imgflip.com/1g8my4.jpg"},# Expanding Brain
-            {"imageUrl": "https://i.imgflip.com/30b1gx.jpg"} # Woman Yelling at a Cat
-        ]
+
         for m in sample_memes:
             db.session.add(Meme(imageUrl=m['imageUrl']))
         db.session.commit()
