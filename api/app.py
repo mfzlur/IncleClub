@@ -6,6 +6,8 @@ from flask_jwt_extended import create_access_token, JWTManager
 import random
 from flask_jwt_extended import jwt_required
 import os
+from memes import sample_memes
+from quotes import sample_quotes
 
 
 # --- Application Initialization ---
@@ -122,37 +124,40 @@ def login():
 @app.route('/api/quote', methods=['GET'])
 def get_quote():
     # 1. Get the total number of rows in the table
-    row_count = Quote.query.count()
+    # row_count = Quote.query.count()
 
-    if row_count > 0:
-        # 2. Generate a random number to use as an offset
-        random_offset = random.randint(0, row_count - 1)
+    # if row_count > 0:
+    #     # 2. Generate a random number to use as an offset
+    #     random_offset = random.randint(0, row_count - 1)
         
-        # 3. Fetch the single row at that random offset
-        random_quote = Quote.query.offset(random_offset).first()
+    #     # 3. Fetch the single row at that random offset
+    #     random_quote = Quote.query.offset(random_offset).first()
         
-        return jsonify({"text": random_quote.text, "author": random_quote.author})
+    #     return jsonify({"text": random_quote.text, "author": random_quote.author})
     
-    return jsonify({"message": "No quotes found"}), 404
+    # return jsonify({"message": "No quotes found"}), 404
+    return jsonify(random.choice(sample_quotes))
 
 
 
 # UPDATED: This route also uses the more efficient offset method
 @app.route('/api/meme', methods=['GET'])
 def get_meme():
-    # 1. Get the total number of rows
-    row_count = Meme.query.count()
+    # # 1. Get the total number of rows
+    # row_count = Meme.query.count()
 
-    if row_count > 0:
-        # 2. Generate a random offset
-        random_offset = random.randint(0, row_count - 1)
+    # if row_count > 0:
+    #     # 2. Generate a random offset
+    #     random_offset = random.randint(0, row_count - 1)
         
-        # 3. Fetch the single row at that offset
-        random_meme = Meme.query.offset(random_offset).first()
+    #     # 3. Fetch the single row at that offset
+    #     random_meme = Meme.query.offset(random_offset).first()
         
-        return jsonify({"imageUrl": random_meme.imageUrl})
+    #     return jsonify({"imageUrl": random_meme.imageUrl})
     
-    return jsonify({"message": "No memes found"}), 404
+    # return jsonify({"message": "No memes found"}), 404
+    return jsonify(random.choice(sample_memes))
+
 
 
 # --- NEW: Secure endpoints for adding content ---
