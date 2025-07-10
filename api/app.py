@@ -6,8 +6,8 @@ from flask_jwt_extended import create_access_token, JWTManager
 import random
 from flask_jwt_extended import jwt_required
 import os
-from memes import sample_memes
-from quotes import sample_quotes
+from api.memes import sample_memes
+from api.quotes import sample_quotes
 
 
 # --- Application Initialization ---
