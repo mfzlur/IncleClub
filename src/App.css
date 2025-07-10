@@ -101,16 +101,39 @@ body {
   font-weight: 600;
 }
 
-/* The existing auth-button styles work well with the dark theme, so they can remain */
-.auth-button {
-  background-color: #5b21b6;
-  color: #ffffff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+/* --- Styling for Tile Footer and Add Button --- */
+
+/* Create a container for the add button at the bottom of the tile */
+.tile-footer {
+  padding-top: 1rem;
+  margin-top: auto; /* Pushes the footer to the bottom */
+  display: flex;
+  justify-content: center; /* Center the button horizontally */
+  align-items: center;
 }
 
-.auth-button:hover {
+/* Make the '+' button larger, circular, and more prominent */
+.add-button {
+  width: 50px;       /* Increase width */
+  height: 50px;      /* Increase height */
+  border-radius: 50%; /* Make it a circle */
+  background-color: #5b21b6;
+  color: white;
+  border: none;
+  font-size: 2rem;   /* Make the '+' symbol larger */
+  font-weight: 300;
+  line-height: 2;    /* Helps with vertical centering of the '+' */
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.add-button:hover {
   background-color: #4c1d95;
-  color: #ffffff;
+  transform: scale(1.1); /* Adds a nice hover effect */
 }
 
 /* --- End of Navbar Block --- */
@@ -465,5 +488,61 @@ body {
 }
 
 .add-button:hover {
+  background-color: #4c1d95;
+}
+
+
+/* --- Enhanced Submission Form Styles --- */
+
+/* Style for the form container */
+.submission-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem; /* Adds space between form elements */
+}
+
+/* Style for the form title */
+.submission-form h2 {
+  text-align: center;
+  margin-top: 0;
+  color: #333;
+  font-size: 1.8rem;
+}
+
+/* Common styles for text inputs and textareas */
+.submission-form input[type="text"],
+.submission-form textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+/* Add a focus effect for better UX */
+.submission-form input[type="text"]:focus,
+.submission-form textarea:focus {
+  outline: none;
+  border-color: #5b21b6; /* Highlight color */
+  box-shadow: 0 0 0 3px rgba(91, 33, 182, 0.2);
+}
+
+/* Make the submit button full-width and use the auth-button styles */
+.submission-form .submit-button {
+  width: 100%;
+  padding: 15px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  /* Re-using your .auth-button theme */
+  background-color: #5b21b6;
+  color: #ffffff;
+  transition: background-color 0.3s;
+}
+
+.submission-form .submit-button:hover {
   background-color: #4c1d95;
 }

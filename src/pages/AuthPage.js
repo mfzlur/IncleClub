@@ -13,20 +13,22 @@ const AuthPage = ({ onLoginSuccess }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
-    const url = isLogin ? '/api/login' : '/api/register';
+    const url = isLogin ? 'https://rango.pythonanywhere.com/api/login' : 'https://rango.pythonanywhere.com/api/register';
     
     try {
       const response = await axios.post(url, { username, password });
       if (isLogin) {
         const token = response.data.access_token;
-        const decodedToken = jwtDecode(token); // Decode the token
-        const loggedInUsername = decodedToken.identity.username;
+        const decodedToken = jwtDecode(token);
+
+        // The only change is here: from .identity to .sub
+        const loggedInUsername = decodedToken.sub.username; 
 
         // Store both the token and the username
         localStorage.setItem('token', token);
         localStorage.setItem('username', loggedInUsername);
 
-        onLoginSuccess(loggedInUsername); // Pass the username up to App.js
+        onLoginSuccess(loggedInUsername);
         navigate('/');
       } else {
         setIsLogin(true);
@@ -35,7 +37,10 @@ const AuthPage = ({ onLoginSuccess }) => {
     } catch (err) {
       setError(err.response?.data?.message || 'An error occurred. Please try again.');
     }
+
   };
+
+  
 
   // ... (rest of the component's JSX remains the same)
   return (

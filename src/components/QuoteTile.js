@@ -10,7 +10,7 @@ const QuoteTile = ({ currentUser }) => {
 
     const fetchQuote = () => {
         setLoading(true);
-        axios.get('/api/quote')
+        axios.get('https://rango.pythonanywhere.com/api/quote')
             .then(response => {
                 setQuote(response.data);
                 setLoading(false);
@@ -24,6 +24,12 @@ const QuoteTile = ({ currentUser }) => {
     useEffect(() => {
         fetchQuote();
     }, []);
+
+    // NEW: Function to handle a successful submission from the form
+    const handleSubmissionSuccess = (newQuote) => {
+        setQuote(newQuote); // Update the tile to show the new quote
+        setShowModal(false); // Close the modal
+    };
 
     const renderQuote = () => {
         if (loading) {
@@ -45,23 +51,18 @@ const QuoteTile = ({ currentUser }) => {
     return (
         <>
             <Modal show={showModal} onClose={() => setShowModal(false)}>
-                <SubmissionForm type="quote" onClose={() => setShowModal(false)} />
+                {/* UPDATED: Pass the success handler to the form */}
+                <SubmissionForm 
+                    type="quote" 
+                    onClose={() => setShowModal(false)}
+                    onSubmissionSuccess={handleSubmissionSuccess}
+                />
             </Modal>
 
             <div className="tile">
                 <div className="tile-header">
                     <h2>Pearls of Wisdom from the Wrong Crowd</h2>
                     <div className="tile-actions">
-                        {/* Conditionally render the "Add" button if a user is logged in */}
-                        {currentUser && (
-                            <button 
-                                onClick={() => setShowModal(true)} 
-                                className="add-button" 
-                                title="Add your own quote"
-                            >
-                                +
-                            </button>
-                        )}
                         <button 
                             onClick={fetchQuote} 
                             className="refresh-button" 
@@ -72,9 +73,21 @@ const QuoteTile = ({ currentUser }) => {
                     </div>
                 </div>
 
-                {/* The main content is wrapped in "tile-body" to fix centering */}
                 <div className="tile-body">
                     {renderQuote()}
+                </div>
+
+                {/* MOVED: The "Add" button is now in the footer */}
+                <div className="tile-footer">
+                    {currentUser && (
+                        <button 
+                            onClick={() => setShowModal(true)} 
+                            className="add-button" 
+                            title="Add your own quote"
+                        >
+                            +
+                        </button>
+                    )}
                 </div>
             </div>
         </>
