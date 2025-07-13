@@ -1,18 +1,165 @@
-/* src/components/PosterTile/PosterTile.css */
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@700&display=swap');
 
-.full-width-poster {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  margin-top: 2.5rem;
+/* Main container to center the template */
+.poster-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem; /* Reduced padding for more space */
+    width: 100%;
+    /* KEY CHANGE 1: Force container to respect viewport height */
+    height: 100vh;
+    max-height: 100vh;
+    box-sizing: border-box;
 }
 
-.full-width-poster img {
-  width: 100%; /* Makes the image responsive to the container's width */
-  max-width: 1200px; /* Optional: Prevents the image from getting too large on very wide screens */
-  height: auto; /* Maintains the correct aspect ratio as it scales */
-  display: block;
+/* The main template card */
+.poster-template {
+    width: 100%;
+    max-width: 450px;
+
+    /* KEY CHANGE 2: Set an explicit height and max-height */
+    height: 95%; /* Use a percentage of the container's height */
+    max-height: 900px; /* An absolute max-height as a safeguard */
+
+    background-color: #f0f2f5;
+    border-radius: 24px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+
+    display: flex;
+    flex-direction: column;
+
+    font-family: 'Segoe UI', 'Roboto', sans-serif;
+    /* This will hide any final overflow from the template itself */
+    overflow: hidden;
 }
 
+/* Header and Title: Prevent them from shrinking */
+.poster-header,
+.poster-main-title {
+    flex-shrink: 0;
+}
 
+/* Header bar at the top */
+.poster-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #5A6351;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    margin: -1rem -1rem 1rem -1rem; /* Adjust margin to match padding */
+    font-weight: 600;
+    font-size: 0.9rem;
+    letter-spacing: 0.5px;
+}
+
+/* Large title below the header */
+.poster-main-title {
+    cursor: pointer;
+    user-select: none;
+}
+
+.poster-main-title h1 {
+    font-size: clamp(1.8rem, 10vw, 4rem); /* Reduced max size */
+    color: #1b5e13;
+    margin: 0;
+    font-weight: 600;
+    line-height: 1;
+    transition: color 0.3s ease-in-out;
+}
+
+/* Container for the main content and sidebar */
+.poster-body {
+    display: grid;
+    grid-template-columns: 0.6fr 4fr;
+    gap: 1rem;
+    flex-grow: 1;
+    margin-top: 1rem;
+    overflow: hidden; /* Important: prevents body from overflowing */
+}
+
+/* Left sidebar for color swatches */
+.poster-sidebar {
+    display: flex;
+    align-items: center;
+}
+
+.color-swatches {
+    background-color: white;
+    border-radius: 30px;
+    padding: 0.75rem 0.5rem;
+    box-shadow: 0 4px 12px rgba(50, 55, 51, 0.08);
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem; /* Reduced gap */
+}
+
+.swatch {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    border: 2px solid #f0f2f5;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    flex-shrink: 0; /* Prevent swatches from shrinking */
+}
+
+.swatch:active {
+    transform: scale(0.9);
+}
+
+/* Main content area on the right */
+.poster-main-content {
+    display: flex;
+    flex-direction: column;
+    min-height: 0; /* Prevents flex items from overflowing parent */
+}
+
+/* --- FEATURE BOX (CRITICAL CHANGES) --- */
+.feature-box {
+    background-color: #89909e;
+    border-radius: 16px;
+    transition: background-color 0.3s ease;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0.75rem;
+    color: white;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    gap: 0.5rem;
+
+    flex-grow: 1;
+    overflow-y: auto; /* Enable internal scrolling */
+    min-height: 0; /* Allow the box to shrink smaller than its content */
+}
+
+.welcome-message {
+    flex-shrink: 0;
+    font-size: clamp(1.5rem, 6vw, 2.5rem);
+    font-weight: 800;
+    line-height: 1.1;
+}
+
+.painting-image {
+    max-width: 100%;
+    height: auto;
+    flex-shrink: 1; /* Allow image to shrink */
+    min-height: 0; /* Allows image to get smaller than its intrinsic size */
+
+    object-fit: contain;
+    display: block;
+    border-radius: 12px;
+    border: 3px solid white;
+}
+
+.signature {
+    flex-shrink: 0;
+    font-family: 'Caveat', cursive;
+    font-size: clamp(1.2rem, 4vw, 2rem);
+    align-self: flex-end;
+    transform: rotate(-6deg);
+    margin-right: 0.5rem;
+}

@@ -82,4 +82,3 @@ const AuthPage = ({ onLoginSuccess }) => {
 };
 
 export default AuthPage;
-
