@@ -1,0 +1,25 @@
+/* src/pages/Home/Home.css */
+
+.home-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+
+@media (min-width: 768px) {
+  .home-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.greeting-container {
+  text-align: center;
+  padding: 2rem 1rem 0;
+}
+
+.greeting-container h2 {
+  color: #FFFFFF;
+  font-size: 2rem;
+  font-weight: 600;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}

@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import '../../components/tile/Tile.css'; // <-- Import shared tile styles
+import './MemeTile.css'; // <-- Import quote-specific styles
+
 
 // The currentUser prop is no longer needed as we've removed the submission feature
 const MemeTile = () => {

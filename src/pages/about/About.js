@@ -1,4 +1,6 @@
 import React from 'react';
+import './About.css'; // <-- Import form styles
+
 
 // No CSS module import needed since we are using the global App.css
 

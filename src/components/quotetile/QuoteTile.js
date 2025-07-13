@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Modal from './Modal';
-import SubmissionForm from './SubmissionForm';
+import Modal from '../modal/Modal';
+import SubmissionForm from '../submissionform/SubmissionForm';
+import './QuoteTile.css'; // <-- Import form styles
+// ... rest of your component
+
 
 const QuoteTile = ({ currentUser }) => {
     const [quote, setQuote] = useState({ text: '', author: '' });

@@ -1,0 +1,18 @@
+/* src/components/PosterTile/PosterTile.css */
+
+.full-width-poster {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-top: 2.5rem;
+}
+
+.full-width-poster img {
+  width: 100%; /* Makes the image responsive to the container's width */
+  max-width: 1200px; /* Optional: Prevents the image from getting too large on very wide screens */
+  height: auto; /* Maintains the correct aspect ratio as it scales */
+  display: block;
+}
+
+

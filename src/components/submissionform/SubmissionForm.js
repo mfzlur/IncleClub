@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import './SubmissionForm.css'; // <-- Import form styles
+
 
 const SubmissionForm = ({ type, onClose, onSubmissionSuccess }) => {
     const [text, setText] = useState('');

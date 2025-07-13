@@ -1,8 +1,8 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import HomePage from '../pages/HomePage';
-import AboutUsPage from '../pages/AboutUsPage';
-import AuthPage from '../pages/AuthPage';
+import HomePage from '../pages/home/Home';
+import AboutUsPage from '../pages/about/About';
+import AuthPage from '../pages/auth/Login';
 
 // Accept currentUser as a prop
 const AppRoutes = ({ onLoginSuccess, currentUser }) => {

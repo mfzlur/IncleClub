@@ -1,0 +1,145 @@
+/* src/components/Navbar/Navbar.css */
+
+.navbar {
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background-color: rgba(26, 32, 44, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.navbar-brand {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #FFFFFF;
+  text-decoration: none;
+}
+
+.navbar-links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+}
+
+.navbar-links li {
+  margin-left: 1rem;
+}
+
+.navbar-links .nav-link {
+  display: inline-block;
+  text-decoration: none;
+  color: #CBD5E0;
+  font-size: 1rem;
+  font-weight: 500;
+  padding: 0.5rem 1.25rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.navbar-links .nav-link:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #FFFFFF;
+}
+
+.navbar-links .nav-link.active {
+  background-color: rgba(91, 33, 182, 0.3);
+  color: #FFFFFF;
+  font-weight: 600;
+}
+
+
+/* src/components/navbar/Navbar.css */
+
+/* --- Keep all your existing styles above this line --- */
+
+
+/* --- Styles for the Hamburger Menu Icon --- */
+.hamburger-menu {
+  display: none; /* Hidden by default on desktop */
+  flex-direction: column;
+  justify-content: space-around;
+  width: 2rem;
+  height: 2rem;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 10;
+}
+
+.hamburger-menu .bar {
+  display: block;
+  width: 2rem;
+  height: 3px;
+  background-color: #FFFFFF;
+  border-radius: 2px;
+  transition: all 0.3s ease-in-out;
+}
+
+/* --- Animation for Hamburger to 'X' --- */
+.hamburger-menu.active .bar:nth-child(2) {
+  opacity: 0;
+}
+.hamburger-menu.active .bar:nth-child(1) {
+  transform: translateY(11px) rotate(45deg);
+}
+.hamburger-menu.active .bar:nth-child(3) {
+  transform: translateY(-11px) rotate(-45deg);
+}
+
+
+/* --- Responsive Styles (Mobile View) --- */
+@media (max-width: 768px) {
+  .hamburger-menu {
+    display: flex; /* Show the hamburger on mobile */
+  }
+
+  .navbar-links {
+    position: absolute;
+    top: 100%; /* Position it right below the navbar */
+    left: 0;
+    width: 100%;
+    flex-direction: column;
+    background-color: rgba(26, 32, 44, 0.95); /* A more solid background for readability */
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    
+    /* Hide the menu by default */
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease-in-out;
+  }
+
+  .navbar-links.active {
+    max-height: 300px; /* Show the menu */
+  }
+
+  .navbar-links li {
+    margin: 0;
+    width: 100%;
+    text-align: center;
+  }
+
+  .navbar-links .nav-link {
+    display: block; /* Make links take up the full width */
+    padding: 1.5rem 1rem;
+    border-radius: 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .navbar-links .nav-link.active {
+    background-color: rgba(91, 33, 182, 0.3);
+  }
+}

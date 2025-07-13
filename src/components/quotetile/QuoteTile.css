@@ -1,0 +1,17 @@
+/* src/components/QuoteTile/QuoteTile.css */
+
+.quote-content {
+  text-align: center;
+}
+
+.quote-text {
+  font-size: 1.5rem;
+  font-style: italic;
+  margin-bottom: 1rem;
+}
+
+.quote-author {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #6d28d9;
+}

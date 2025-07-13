@@ -1,4 +1,7 @@
 import React from 'react';
+import './Modal.css'; // <-- Import form styles
+
+
 
 const Modal = ({ show, onClose, children }) => {
   if (!show) {

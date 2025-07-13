@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode'; // Import the decoding function
+import './Auth.css'; // <-- Import form styles
+
 
 const AuthPage = ({ onLoginSuccess }) => {
   const [username, setUsername] = useState('');

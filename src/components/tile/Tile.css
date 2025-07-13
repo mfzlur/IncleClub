@@ -1,0 +1,86 @@
+/* src/components/Tile/Tile.css */
+
+.tile {
+  min-height: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 1.5rem;
+  border-radius: 16px;
+  background-color: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+}
+
+.tile-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 1rem;
+  flex-shrink: 0;
+}
+
+.tile-header h2 {
+  margin: 0;
+  color: #5b21b6;
+  text-align: center;
+}
+
+.tile-body {
+  flex-grow: 1;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.tile-footer {
+  padding-top: 1rem;
+  margin-top: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.add-button {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: #5b21b6;
+  color: white;
+  border: none;
+  font-size: 2rem;
+  font-weight: 300;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.add-button:hover {
+  background-color: #4c1d95;
+  transform: scale(1.1);
+}
+
+.refresh-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.5rem;
+  margin-left: 10px;
+  color: #5b21b6;
+  transition: color 0.3s ease, transform 0.3s ease;
+  vertical-align: middle;
+}
+
+.refresh-button:hover {
+  color: #9d4edd;
+  transform: rotate(360deg);
+}

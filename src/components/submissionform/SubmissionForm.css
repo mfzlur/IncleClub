@@ -1,0 +1,54 @@
+/* src/components/SubmissionForm/SubmissionForm.css */
+
+.submission-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.submission-form h2 {
+  text-align: center;
+  margin-top: 0;
+  color: #333;
+  font-size: 1.8rem;
+}
+
+.submission-form textarea,
+.submission-form input[type="text"] {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  box-sizing: border-box;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.submission-form textarea:focus,
+.submission-form input[type="text"]:focus {
+  outline: none;
+  border-color: #5b21b6;
+  box-shadow: 0 0 0 3px rgba(91, 33, 182, 0.2);
+}
+
+.submission-form .submit-button {
+  width: 100%;
+  padding: 15px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background-color: #5b21b6;
+  color: #ffffff;
+  transition: background-color 0.3s;
+}
+
+.submission-form .submit-button:hover {
+  background-color: #4c1d95;
+}
+
+.submission-form .error {
+  text-align: center;
+  color: #e53e3e;
+}

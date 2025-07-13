@@ -1,6 +1,7 @@
 import React from 'react';
 // 1. Import your static image from the assets folder
-import posterImage from '../assets/incleclub-poster.png';
+import posterImage from '../../assets/incleclub-poster.jpeg';
+import './PosterTile.css'
 
 const PosterTile = () => {
     return (
